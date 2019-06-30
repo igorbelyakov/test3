@@ -3,7 +3,8 @@ import cn from "classnames";
 
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import { Formik } from "formik";
+import * as yup from "yup";
 import Card from "@material-ui/core/Card";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -27,6 +28,8 @@ import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
 
+import { typeData } from "../../helpers/types";
+
 const useStyles = makeStyles(theme =>
   createStyles({
     headerToolbar: {
@@ -39,6 +42,9 @@ const useStyles = makeStyles(theme =>
     },
     button: {
       padding: 8,
+    },
+    expandOpen: {
+      transform: "rotate(180deg)",
     },
     header: {
       fontSize: 14,
@@ -59,73 +65,115 @@ const useStyles = makeStyles(theme =>
   }),
 );
 
-export const SensorsCommonParams = () => {
+const validationSchema = yup.object().shape({
+  id: yup
+    .number()
+    .typeError("должно быть числом")
+    .positive("должно быть положительным числом"),
+});
+
+export const SensorsCommonParams = ({ currentFull, edit }) => {
   const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+  /*const [newId, setNewId] = React.useState(currentFull.id);
+  const [newType, setNewType] = React.useState(currentFull.type);*/
+
+  const toggleExpanded = () => setExpanded(!expanded);
+
+  if (!currentFull) return null;
 
   return (
-    <Paper className={classes.card}>
-      <Toolbar className={classes.headerToolbar}>
-        <Typography color="textPrimary" className={classes.header}>
-          Общие параметры
-        </Typography>
-        <div className={classes.toolbarDelim} />
-        <IconButton className={classes.button}>
-          <ExpandMore />
-        </IconButton>
-      </Toolbar>
-      <Divider />
-      <List>
-        <ListItem>
-          <TextField
-            label="ID устройства"
-            className={classes.field}
-            value="88888"
-            margin="normal"
-            color="textPrimary"
-            InputLabelProps={{
-              classes: {
-                root: classes.fieldInput,
-              },
-            }}
-            InputProps={{
-              classes: {
-                input: classes.fieldInput,
-              },
-            }}
-          />
-        </ListItem>
-        <ListItem>
-          <TextField
-            color="textPrimary"
-            value="dver"
-            select
-            label="Тип датчика"
-            className={classes.field}
-            InputLabelProps={{
-              classes: {
-                root: classes.fieldInput,
-              },
-            }}
-            InputProps={{
-              classes: {
-                input: classes.fieldInput,
-              },
-            }}
-          >
-            <MenuItem value={"osvesh"}>Датчик освещённости</MenuItem>
-            <MenuItem value={"dver"}>Датчик двери</MenuItem>
-            <MenuItem value={"temp"}>Датчик температуры</MenuItem>
-            <MenuItem value={"vlashn"}>Датчик влажности</MenuItem>
-            <MenuItem value={"dim"}>Датчик дыма</MenuItem>
-            <MenuItem value={"schetch"}>Счётчик</MenuItem>
-          </TextField>
-        </ListItem>
-      </List>
-      <Divider />
-      <Toolbar className={cn(classes.footerToolbar, classes.toolbar)}>
-        <Button color="textSecondary">Отмена</Button>
-        <Button color="secondary">Соxранить</Button>
-      </Toolbar>
-    </Paper>
+    <Formik
+      initialValues={{
+        id: currentFull.id,
+        type: currentFull.type,
+      }}
+      validationSchema={validationSchema}
+      onSubmit={data => edit(currentFull.id, data)}
+      validateOnChange={false}
+      render={({ values, errors, handleChange, handleSubmit, handleReset }) => (
+        <Paper className={classes.card}>
+          <Toolbar className={classes.headerToolbar}>
+            <Typography color="textPrimary" className={classes.header}>
+              Общие параметры
+            </Typography>
+            <div className={classes.toolbarDelim} />
+            <IconButton
+              onClick={toggleExpanded}
+              className={cn(classes.button, { [classes.expandOpen]: expanded })}
+            >
+              <ExpandMore />
+            </IconButton>
+          </Toolbar>
+          <Divider />
+          {expanded && (
+            <>
+              <List>
+                <ListItem>
+                  <TextField
+                    label="ID устройства"
+                    className={classes.field}
+                    value={values.id}
+                    error={Boolean(errors.id)}
+                    onChange={handleChange}
+                    name="id"
+                    margin="normal"
+                    color="textPrimary"
+                    InputLabelProps={{
+                      classes: {
+                        root: classes.fieldInput,
+                      },
+                    }}
+                    InputProps={{
+                      classes: {
+                        input: classes.fieldInput,
+                      },
+                    }}
+                  />
+                </ListItem>
+                <ListItem>
+                  <TextField
+                    color="textPrimary"
+                    value={values.type}
+                    error={Boolean(errors.type)}
+                    onChange={handleChange}
+                    select
+                    name="type"
+                    label="Тип датчика"
+                    className={classes.field}
+                    InputLabelProps={{
+                      classes: {
+                        root: classes.fieldInput,
+                      },
+                    }}
+                    InputProps={{
+                      classes: {
+                        input: classes.fieldInput,
+                      },
+                    }}
+                  >
+                    {" "}
+                    {typeData.map(td => (
+                      <MenuItem value={td.key} key={td.key}>
+                        {td.selectorTitle}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </ListItem>
+              </List>
+              <Divider />
+              <Toolbar className={cn(classes.footerToolbar, classes.toolbar)}>
+                <Button onClick={handleReset} color="textSecondary">
+                  Отмена
+                </Button>
+                <Button onClick={handleSubmit} color="secondary">
+                  Соxранить
+                </Button>
+              </Toolbar>
+            </>
+          )}
+        </Paper>
+      )}
+    />
   );
 };

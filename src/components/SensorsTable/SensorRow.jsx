@@ -20,6 +20,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
+import { getTypeData } from "../../helpers/types";
+
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
@@ -72,6 +74,7 @@ const useStyles = makeStyles(theme =>
     cell: {
       paddingTop: 4.5,
       paddingBottom: 5,
+      padding: "4.5px 11px 5px 11px",
 
       "&:first-child": {
         paddingLeft: 21,
@@ -88,26 +91,20 @@ const useStyles = makeStyles(theme =>
       fontSize: 10,
       fontWeight: "500",
     },
-    cellDevice: {
-      flexDirection: "column",
-      display: "flex",
-      justifyContent: "space-around",
-      boxSizing: "border-box",
-      height: 53,
-      marginBottom: -1,
-    },
     listItemIcon: { minWidth: 24 },
   }),
 );
 
-export const SensorCell = ({ id, type, device, indicator }) => {
+export const SensorRow = ({ current, id, type, device, indicator, select }) => {
   const classes = useStyles();
-
+  console.log(type);
   return (
     <TableRow key={"aa"}>
       <TableCell className={classes.cell} component="th" scope="row">
         <FormControlLabel
           control={<Checkbox value="checkedF" />}
+          checked={current === id}
+          onChange={select}
           label={
             <Typography
               variant="p"
@@ -121,10 +118,10 @@ export const SensorCell = ({ id, type, device, indicator }) => {
       <TableCell className={cn(classes.cell, classes.cellType)} align="right">
         <Typography variant="p" className={classes.cellTextLil}>
           <MenuIcon className={classes.cellTypeIcon} />
-          {type}
+          {getTypeData(type).title}
         </Typography>
       </TableCell>
-      <TableCell className={cn(classes.cell, classes.cellDevice)} align="right">
+      <TableCell className={classes.cell} align="right">
         <Typography
           variant="p"
           className={classes.cellTextLil}
@@ -132,6 +129,7 @@ export const SensorCell = ({ id, type, device, indicator }) => {
         >
           {id}
         </Typography>
+        <br />
         <Typography variant="p" className={classes.cellTextLil}>
           {device}
         </Typography>

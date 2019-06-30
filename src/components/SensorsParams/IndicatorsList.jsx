@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme =>
     button: {
       padding: 8,
     },
+    expandOpen: {
+      transform: "rotate(180deg)",
+    },
     header: {
       fontSize: 14,
       fontWeight: 500,
@@ -43,9 +46,12 @@ const useStyles = makeStyles(theme =>
   }),
 );
 
-export const IndicatorsList = () => {
+export const IndicatorsList = ({ currentFull }) => {
   const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(true);
 
+  const toggleExpanded = () => setExpanded(!expanded);
+  console.log(currentFull);
   return (
     <>
       <Toolbar className={classes.toolbar}>
@@ -53,16 +59,26 @@ export const IndicatorsList = () => {
           Показатели датчика
         </Typography>
         <div className={classes.toolbarDelim} />
-        <IconButton className={classes.button}>
+        <IconButton
+          onClick={toggleExpanded}
+          className={cn(classes.button, { [classes.expandOpen]: expanded })}
+        >
           <ExpandMore />
         </IconButton>
       </Toolbar>
-      <List>
-        <IndicatorItem current property="Текущее значение" value="+10 °С" />
-        <IndicatorItem property="Диаппазон" value="от -10 до +30 °С" />
-        <IndicatorItem property="Мин. значение" value="-5 °С" />
-        <IndicatorItem property="Макс. значение" value="+15 °С" />
-      </List>
+
+      {expanded && (
+        <List>
+          <IndicatorItem
+            current
+            property="Текущее значение"
+            value={currentFull.indicator}
+          />
+          <IndicatorItem property="Диаппазон" value="от -10 до +30 °С" />
+          <IndicatorItem property="Мин. значение" value="-5 °С" />
+          <IndicatorItem property="Макс. значение" value="+15 °С" />
+        </List>
+      )}
     </>
   );
 };

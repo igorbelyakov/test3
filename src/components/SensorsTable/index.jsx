@@ -21,7 +21,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import FilterList from "@material-ui/icons/FilterList";
 import Search from "@material-ui/icons/Search";
-import { SensorCell } from "./SensorCell";
+import { SensorRow } from "./SensorRow";
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -43,6 +43,9 @@ const useStyles = makeStyles(theme =>
       padding: "0 21px",
       minHeight: "59px !important",
     },
+    button: {
+      padding: 8,
+    },
     toolbar: {
       padding: "0 21px",
       minHeight: "52px !important",
@@ -55,6 +58,7 @@ const useStyles = makeStyles(theme =>
     },
     table: {
       maxWidth: "100%",
+      tableLayout: "auto",
     },
     toolbarDelim: {
       flexGrow: 1,
@@ -78,6 +82,7 @@ const useStyles = makeStyles(theme =>
     cell: {
       paddingTop: 4.5,
       paddingBottom: 5,
+      padding: "4.5px 11px 5px 11px",
 
       "&:first-child": {
         paddingLeft: 21,
@@ -94,19 +99,11 @@ const useStyles = makeStyles(theme =>
       fontSize: 10,
       fontWeight: "500",
     },
-    cellDevice: {
-      flexDirection: "column",
-      display: "flex",
-      justifyContent: "space-around",
-      boxSizing: "border-box",
-      height: 53,
-      marginBottom: -1,
-    },
     listItemIcon: { minWidth: 24 },
   }),
 );
 
-export const SensorsTable = () => {
+export const SensorsTable = ({ current, create, select, sensors }) => {
   const classes = useStyles();
 
   return (
@@ -138,6 +135,8 @@ export const SensorsTable = () => {
             <TableCell className={cn(classes.cell, classes.sortFilterHead)}>
               <FormControlLabel
                 control={<Checkbox value="checkedF" />}
+                onChange={() => select(null)}
+                checked={!current}
                 label={
                   <Typography
                     variant="p"
@@ -223,6 +222,7 @@ export const SensorsTable = () => {
                 color="secondary"
                 fullWidth
                 className={classes.addSensorButton}
+                onClick={create}
               >
                 <MenuIcon />
                 <Typography
@@ -237,42 +237,17 @@ export const SensorsTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <SensorCell
-            id="478569"
-            type="type"
-            device="SDE-r"
-            indicator="открыто"
-          />
-          <SensorCell
-            id="478569"
-            type="type"
-            device="SDE-r"
-            indicator="открыто"
-          />
-          <SensorCell
-            id="478569"
-            type="type"
-            device="SDE-r"
-            indicator="открыто"
-          />
-          <SensorCell
-            id="478569"
-            type="type"
-            device="SDE-r"
-            indicator="открыто"
-          />
-          <SensorCell
-            id="478569"
-            type="type"
-            device="SDE-r"
-            indicator="открыто"
-          />
-          <SensorCell
-            id="478569"
-            type="type"
-            device="SDE-r"
-            indicator="открыто"
-          />
+          {sensors.map(sens => (
+            <SensorRow
+              key={sens.id}
+              id={sens.id}
+              type={sens.type}
+              current={current}
+              device={sens.device}
+              indicator={sens.indicator}
+              select={() => select(sens.id)}
+            />
+          ))}
         </TableBody>
       </Table>
     </Paper>

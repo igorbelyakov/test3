@@ -114,3 +114,8 @@
   font-style: italic;
   font-weight: 900;
 }
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
