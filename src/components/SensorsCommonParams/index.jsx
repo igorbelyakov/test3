@@ -1,32 +1,20 @@
 import React from "react";
 import cn from "classnames";
 
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import { Formik } from "formik";
 import * as yup from "yup";
-import Card from "@material-ui/core/Card";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
-import CardHeader from "@material-ui/core/CardHeader";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import red from "@material-ui/core/colors/red";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
 
 import { typeData } from "../../helpers/types";
 
@@ -75,8 +63,6 @@ const validationSchema = yup.object().shape({
 export const SensorsCommonParams = ({ currentFull, edit }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  /*const [newId, setNewId] = React.useState(currentFull.id);
-  const [newType, setNewType] = React.useState(currentFull.type);*/
 
   const toggleExpanded = () => setExpanded(!expanded);
 

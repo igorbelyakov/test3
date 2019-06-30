@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import ArrowDropDown from "@material-ui/icons/ArrowDropDown";
 
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -13,15 +13,14 @@ import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import FilterList from "@material-ui/icons/FilterList";
 import Search from "@material-ui/icons/Search";
 import { SensorRow } from "./SensorRow";
+
+import * as imgs from "../../img/";
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -91,14 +90,6 @@ const useStyles = makeStyles(theme =>
         paddingRight: 21,
       },
     },
-    cellTextBig: {
-      fontSize: 12,
-      fontWeight: "500",
-    },
-    cellTextLil: {
-      fontSize: 10,
-      fontWeight: "500",
-    },
     listItemIcon: { minWidth: 24 },
   }),
 );
@@ -116,7 +107,6 @@ export const SensorsTable = ({ current, create, select, sensors }) => {
                 <Typography
                   fontWeight={600}
                   color="textPrimary"
-                  variant="h1"
                   className={classes.title}
                 >
                   Датчики
@@ -139,7 +129,6 @@ export const SensorsTable = ({ current, create, select, sensors }) => {
                 checked={!current}
                 label={
                   <Typography
-                    variant="p"
                     className={cn(classes.checkboxLabel, classes.sortFilter)}
                   >
                     ID
@@ -224,12 +213,8 @@ export const SensorsTable = ({ current, create, select, sensors }) => {
                 className={classes.addSensorButton}
                 onClick={create}
               >
-                <MenuIcon />
-                <Typography
-                  color="secondary"
-                  variant="p"
-                  className={classes.addSensor}
-                >
+                <img src={imgs.plus} alt="Добавить датчик" />
+                <Typography color="secondary" className={classes.addSensor}>
                   Добавить датчик
                 </Typography>
               </Button>

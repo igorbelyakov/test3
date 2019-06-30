@@ -1,39 +1,41 @@
+import * as imgs from "../../img";
+
 export const typeData = [
   {
     key: "osvesh",
     title: "Освещенность",
     selectorTitle: "Датчик освещённости",
-    icon: "",
+    icon: imgs.lux,
   },
   {
     key: "dver",
     title: "Дверь",
     selectorTitle: "Датчик двери",
-    icon: "",
+    icon: imgs.gromFolder,
   },
   {
     key: "temp",
     title: "Температура",
     selectorTitle: "Датчик температуры",
-    icon: "",
+    icon: imgs.temperature,
   },
   {
     key: "vlashn",
     title: "Влажность",
     selectorTitle: "Датчик влажности",
-    icon: "",
+    icon: imgs.vlashnost,
   },
   {
     key: "dim",
     title: "Дым",
     selectorTitle: "Датчик дыма",
-    icon: "",
+    icon: imgs.dim,
   },
   {
     key: "schetch",
     title: "Счётчик",
     selectorTitle: "Счётчик",
-    icon: "",
+    icon: imgs.molniya,
   },
 ];
 
