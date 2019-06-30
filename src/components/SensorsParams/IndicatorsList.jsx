@@ -36,7 +36,6 @@ export const IndicatorsList = ({ currentFull }) => {
   const [expanded, setExpanded] = React.useState(true);
 
   const toggleExpanded = () => setExpanded(!expanded);
-  console.log(currentFull);
   return (
     <>
       <Toolbar className={classes.toolbar}>
